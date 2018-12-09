@@ -7,4 +7,8 @@ import java.util.List;
 public interface DocumentService {
 
     List<Document> getDocumentsByUsername(String username);
+
+    Document getDocumentById(Long id);
+
+    List<Document> getAllDocuments();
 }

@@ -23,7 +23,7 @@
         <label>${result_message}</label>
     </div>
     <div style="margin-bottom: 10%">
-        <%@include file="../layouts/product_list_layout.jsp"%>
+        <%@include file="../layouts/document_list_layout.jsp"%>
     </div>
     <%@include file="../layouts/footer_layout.jsp"%>
 

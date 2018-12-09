@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface DocumentRepository extends JpaRepository<Document, Long> {
 
-//    List<Document> findByOwner(User user);
+    List<Document> findByOwners(User user);
 }

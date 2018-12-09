@@ -1,6 +1,7 @@
 package com.project.elsign.controller;
 
 
+import com.project.elsign.service.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,6 +25,9 @@ import java.util.ResourceBundle;
 @Controller
 public class NavigationController {
 
+    @Autowired
+    DocumentService documentService;
+
 
     @RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.GET)
     public String main(Model model, HttpServletRequest request) {
@@ -32,6 +36,7 @@ public class NavigationController {
         Locale locale = RequestContextUtils.getLocale(request);
         ResourceBundle bundle = ResourceBundle.getBundle("locales.messages", locale);
         model.addAttribute("keys", bundle.getKeys());
+        model.addAttribute("documents", documentService.getAllDocuments());
         return "/welcome";
     }
 

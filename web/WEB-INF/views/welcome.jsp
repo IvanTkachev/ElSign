@@ -20,9 +20,9 @@
     <%@include file="../layouts/preloader.jsp"%>
     <%@include file="../layouts/high_menu_bar.jsp"%>
     <!--%@include file="../layouts/left_menu_layout.jsp"%-->
-
-
-    <div style="margin-top: 40%">
-        <%@include file="../layouts/footer_layout.jsp"%>
+    <div style="margin-bottom: 300px; margin-left: 10%">
+        <%@include file="../layouts/document_list_layout.jsp"%>
     </div>
+        <%@include file="../layouts/footer_layout.jsp"%>
+
 </body>

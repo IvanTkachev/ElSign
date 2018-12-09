@@ -22,30 +22,11 @@
 <div class="container content">
     <div class="row wrapper-for-product-in-productbyid">
         <div class="col-lg-4">
-            <h2><strong>${productid.title}</strong></h2>
+            <h2><strong>${documentid.name}</strong></h2>
 
             <div class="product-img-1">
-                <img width="250" height="250" src="https://drive.google.com/uc?export=download&confirm=no_antivirus&id=${productid.photo}"
-                     onerror="this.src='${contextPath}/resources/img/placeholder-image.png'">
-
+                <img src="../../resources/img/document.png"/>
             </div>
-
-            <security:authorize access="(hasRole('ROLE_ADMIN') or hasRole('ROLE_USER'))">
-                <div class="product-icons">
-                    <c:choose>
-                        <c:when test="${favorite_products.contains(productid)}">
-                            <a href="#" id="${productid.id}" class="icon-green">
-                                <img src="${contextPath}/resources/img/heart.png">
-                            </a>
-                        </c:when>
-                        <c:otherwise>
-                            <a href="#" id="${productid.id}" class="icon">
-                                <img src="${contextPath}/resources/img/heart.png">
-                            </a>
-                        </c:otherwise>
-                    </c:choose>
-                </div>
-            </security:authorize>
 
         </div>
         <div class="col-lg-6 description-of-the-product">
@@ -54,30 +35,25 @@
             </p>
             <div class="wrapper-for-ul">
                 <ul>
-                    <c:forEach items="${productid.attributesAndValues}" var="value">
-                        <li><strong><spring:message code="${value.key}"/> :</strong></li>
-                    </c:forEach>
-                    <li><strong><spring:message code="product.cost"/>:</strong></li>
                     <li><strong><spring:message code="product.description"/>:</strong></li>
-                    <c:if test="${not empty productid.phone}" >   <li><strong><spring:message code="profile.telephone"/>:</strong></li></c:if>
-                 <c:if test="${not empty productid.owner}" > <li><strong><spring:message code="OWNER"/>:</strong></li></c:if>
+                    <c:if test="${not empty documentid.owners.iterator().next().telephone}" >   <li><strong><spring:message code="profile.telephone"/>:</strong></li></c:if>
+                 <c:if test="${not empty documentid.name}" > <li><strong><spring:message code="OWNER"/>:</strong></li></c:if>
                 </ul>
                 <ul>
-                    <c:forEach items="${productid.attributesAndValues}" var="value">
-                        <li>${value.value}</li>
+                   <li>${documentid.name}</li>
+                    <li>${documentid.owners.iterator().next().telephone}</li>
+                    <c:forEach items="${documentid.owners}" var="owner">
+                        <li><a href="${contextPath}/account/${owner.username}">${owner.username}</a></li>
                     </c:forEach>
-                   <li> ${productid.cost}</li>
-                   <li>${productid.description}</li>
-                    <li>${productid.phone}</li>
-                    <li><a href="${contextPath}/account/${productid.owner}">${productid.owner}</a></li>
+
                 </ul>
 
             </div>
 
-            <security:authorize access="(hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')) and principal.username=='${productid.owner}' and '${productid.ownerStatus.equals(\"UNBLOCKED\")}'">
+            <security:authorize access="(hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')) and principal.username=='${documentid.name}'">
                 <form action="" method="post">
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                    <a href="${contextPath}/product/edit/${productid.id}">
+                    <a href="${contextPath}/document/edit/${documentid.id}">
                         <img style="margin-left: 1000%;" src="${contextPath}/resources/img/gear.png">
                     </a>
                 </form>
@@ -85,12 +61,12 @@
 
         </div>
 
-        <c:if test="${productid.productStatus.toString() == 'MODERATION'}">
+        <c:if test="${documentid.name.toString() == 'MODERATION'}">
             <sec:authorize access="hasRole('ROLE_ADMIN')">
                 <div class="col-lg-2 btn-group-vertical align-middle">
-                    <button type="button" name="${productid.id}" id="btn_accept" class="btn btn-primary"><spring:message
+                    <button type="button" name="${documentid.id}" id="btn_accept" class="btn btn-primary"><spring:message
                             code="moderationButtonAccept"/></button>
-                    <button type="button" name="${productid.id}" id="btn_deny" class="btn btn-primary"><spring:message
+                    <button type="button" name="${documentid.id}" id="btn_deny" class="btn btn-primary"><spring:message
                             code="moderationButtonDeny"/></button>
                 </div>
             </sec:authorize>

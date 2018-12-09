@@ -38,10 +38,9 @@
                                 </a>
                             </div>
 
-                            <div class="product-img">
+                            <div class="product-img" style="margin-top: 4%">
                                 <a href="#">
-                                    <img src="https://drive.google.com/uc?export=download&confirm=no_antivirus&id=${doc.name}"
-                                         onerror="this.src='${contextPath}/resources/img/placeholder-image.png'"/>
+                                    <img src="../../resources/img/document.png"/>
                                 </a>
 
                             </div>

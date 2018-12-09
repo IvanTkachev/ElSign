@@ -74,7 +74,7 @@
     <p><h3><strong><spring:message code="form.comment"/></strong></h3><Br>
         <textarea id="textField" name="text" cols="60" rows="5"
                   placeholder="<spring:message code="comment.size"/>"    ></textarea>
-        <input id="postId" type="hidden" name="postID" value="${productid.id}"/>
+        <input id="postId" type="hidden" name="postID" value="${document.id}"/>
     </p>
     <button type="submit" id="btn" class="btn btn-success" value="Отправить"><spring:message code="button.send"/></button>
 

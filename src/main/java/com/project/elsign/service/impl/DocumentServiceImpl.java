@@ -20,7 +20,17 @@ public class DocumentServiceImpl implements DocumentService{
 
     @Override
     public List<Document> getDocumentsByUsername(String username) {
-//        return documentRepository.findByOwner(userRepository.findByUsername(username));
-        return null;
+        return documentRepository.findByOwners(userRepository.findByUsername(username));
     }
+
+    @Override
+    public Document getDocumentById(Long id) {
+        return documentRepository.findOne(id);
+    }
+
+    @Override
+    public List<Document> getAllDocuments() {
+        return documentRepository.findAll();
+    }
+
 }
