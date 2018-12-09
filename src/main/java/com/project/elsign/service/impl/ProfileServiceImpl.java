@@ -1,0 +1,103 @@
+package com.project.elsign.service.impl;
+
+
+
+import com.project.elsign.model.User;
+import com.project.elsign.repository.UserRepository;
+import com.project.elsign.service.ProfileService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
+import static com.project.elsign.service.GoogleDriveAPI.addPhotoToDrive;
+
+
+/**
+ * Implementation of {@link ProfileService} interface.
+ */
+
+@Transactional
+@Component
+public class ProfileServiceImpl implements ProfileService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+
+
+    @Override
+    public User getUserByID(Long id) {
+        return userRepository.findOne(id);
+    }
+
+    @Override
+    public User getUserByUsername(String username) {
+        Long id = userRepository.findByUsername(username).getId();
+        User user = userRepository.findOne(id);
+        user.setUsername(username);
+//        user.setUserProductList(productService.getProductsByUsername(user.getUsername()));
+        return user;
+    }
+
+    @Override
+    public void addUser(User user) {
+        userRepository.save(user);
+    }
+
+    @Override
+    public void updateUser(User user) {
+        userRepository.save(user);
+    }
+
+
+    @Override
+    public User getUserByHttpServletRequestAndPhoto(HttpServletRequest request, MultipartFile photo) {
+        User user = new User();
+        fillNotMandatoryFields(request.getParameterMap(), user, photo);
+        return user;
+    }
+
+    @Override
+    public void fillNotMandatoryFields(Map<String, String[]> parameterMap, User user, MultipartFile photo){
+        user.setFio(parameterMap.get("fio")[0]);
+        user.setEmail(parameterMap.get("email")[0]);
+        user.setCity(parameterMap.get("city")[0]);
+        user.setTelephone(parameterMap.get("telephone")[0]);
+        user.setDateOfBirth(parameterMap.get("dateOfBirth")[0]);
+        if(parameterMap.get("sex") != null)
+            user.setSex(parameterMap.get("sex")[0]);
+        if (photo.isEmpty()){
+            user.setPhoto("-1");
+        }
+        else
+            try {
+                user.setPhoto(addPhotoToDrive(photo));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+    }
+
+    @Override
+    public Long getUserIdByEmail(String email) {
+        User user = userRepository.findByEmail(email);
+        return user == null ? null : user.getId();
+    }
+
+    @Override
+    public Long getUserIdByTelephone(String telephone) {
+        return null;
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+}
