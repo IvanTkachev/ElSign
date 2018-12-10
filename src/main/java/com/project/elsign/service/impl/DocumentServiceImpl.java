@@ -43,4 +43,9 @@ public class DocumentServiceImpl implements DocumentService{
         return documentRepository.findBySigners(userRepository.findByUsername(username));
     }
 
+    @Override
+    public void save(Document document) {
+        documentRepository.save(document);
+    }
+
 }

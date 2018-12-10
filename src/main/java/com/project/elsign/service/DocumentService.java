@@ -15,4 +15,6 @@ public interface DocumentService {
     void updateDocument(Document document);
 
     List<Document> getSignDocumentsByUsername(String username);
+
+    void save(Document document);
 }

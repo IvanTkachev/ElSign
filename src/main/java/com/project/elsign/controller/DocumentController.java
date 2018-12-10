@@ -121,18 +121,22 @@ public class DocumentController {
     }
 
     @RequestMapping(value = "/document/add", method = RequestMethod.POST)
-    public String addDocument(@ModelAttribute("new-document") Document document, Model model, HttpServletRequest request,
-                              @RequestParam("file") MultipartFile file) {
-
+    public String addDocument(@RequestParam("name") String name, @RequestParam("file") MultipartFile file,
+                              Model model, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String name = auth.getName();
-//        if(file!=null){
-//            try {
-//                String id = GoogleDriveAPI.addPhotoToDrive(file);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
+        String username = auth.getName();
+        if(file!=null){
+            try {
+                String id = GoogleDriveAPI.addPhotoToDrive(file);
+                Document document = new Document();
+                document.setLink(id);
+                document.getOwners().add(userService.findByUsername(username));
+                document.setName(name);
+                documentService.save(document);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         return "redirect:/my_documents";
     }
 

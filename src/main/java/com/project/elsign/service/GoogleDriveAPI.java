@@ -1,9 +1,13 @@
 package com.project.elsign.service;
 
+import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
+import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
+import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.FileContent;
-import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -14,6 +18,8 @@ import com.google.api.services.drive.model.File;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Collections;
 import java.util.UUID;
 
@@ -29,6 +35,7 @@ public class GoogleDriveAPI {
     static String myJarPath = GoogleDriveAPI.class.getProtectionDomain().getCodeSource().getLocation().getPath();
     static String dirPath = new java.io.File(myJarPath).getAbsolutePath();
 
+    private static final String CREDENTIALS_FILE_PATH = "/client_secret.json";
 
     /**
      * Directory to store user credentials for this application.
@@ -50,7 +57,7 @@ public class GoogleDriveAPI {
     /**
      * Global instance of the HTTP transport.
      */
-    private static HttpTransport httpTransport;
+    private static NetHttpTransport httpTransport;
 
     /**
      * Global instance of the scopes required by this quickstart.
@@ -76,18 +83,18 @@ public class GoogleDriveAPI {
      * @return an authorized Credential object.
      * @throws IOException
      */
-      /*  public static Credential authorize() throws IOException {
+       public static Credential authorize() throws IOException {
             // Load client secrets.
             InputStream in =
-                    com.project.crm.services.GoogleDriveAPI.class.getResourceAsStream("/client_secret.json");
+                    com.project.elsign.service.GoogleDriveAPI.class.getResourceAsStream("/client_secret.json");
             GoogleClientSecrets clientSecrets =
                     GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
             // Build flow and trigger user authorization request.
             GoogleAuthorizationCodeFlow flow =
                     new GoogleAuthorizationCodeFlow.Builder(
-                            HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
-                            .setDataStoreFactory(DATA_STORE_FACTORY)
+                            httpTransport, JSON_FACTORY, clientSecrets, SCOPES)
+                            .setDataStoreFactory(dataStoreFactory)
                             .setAccessType("offline")
                             .build();
             Credential credential = new AuthorizationCodeInstalledApp(
@@ -97,92 +104,46 @@ public class GoogleDriveAPI {
             return credential;
         }
 
-        */
-
     /**
-     * Build and return an authorized Drive client service.
-     *
-     * @return an authorized Drive client service
-     * @throws IOException
-     *//*
-        public static Drive getDriveService() throws IOException {
-            Credential credential = authorize();
-            return new Drive.Builder(
-                    HTTP_TRANSPORT, JSON_FACTORY, credential)
-                    .setApplicationName(APPLICATION_NAME)
-                    .build();
-        }*/
+     * Creates an authorized Credential object.
+     * @param HTTP_TRANSPORT The network HTTP Transport.
+     * @return An authorized Credential object.
+     * @throws IOException If the credentials.json file cannot be found.
+     */
+    private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
+        // Load client secrets.
+        InputStream in = GoogleDriveAPI.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
+        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
-
-  /*  private static Credential authorize() throws Exception {
-        // load client secrets
-        System.out.println(DATA_STORE_DIR.getAbsolutePath());
-        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY,
-                new InputStreamReader(GoogleDriveAPI.class.getResourceAsStream("/client_secret.json")));
-        if (clientSecrets.getDetails().getClientId().startsWith("Enter")
-                || clientSecrets.getDetails().getClientSecret().startsWith("Enter ")) {
-            System.out.println(
-                    "Enter Client ID and Secret from https://code.google.com/apis/console/?api=drive "
-                            + "into drive-cmdline-sample/src/main/resources/client_secrets.json");
-            System.exit(1);
-        }
-        // set up authorization code flow
-        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(httpTransport,
-                JSON_FACTORY, clientSecrets, SCOPES)
-                .setDataStoreFactory(dataStoreFactory).build();
-        // authorize
-        return new AuthorizationCodeInstalledApp(flow, new LocalServerReceiver()).authorize("user");
-    }*/
-    public static Drive getDriveService() {
-       /* Credential credential = null;
-        try {
-            credential = authorize();
-            System.out.println(" accesstoken " + credential.getAccessToken());
-            System.out.println(" refresh token " + credential.getRefreshToken());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Authorize troubles");
-        }
-        return new Drive.Builder(
-                httpTransport, JSON_FACTORY, credential)
-                .setApplicationName(APPLICATION_NAME)
-                .build();*/
-        HttpTransport httpTransport = new NetHttpTransport();
-        JsonFactory jsonFactory = new JacksonFactory();
-        GoogleCredential credential = new GoogleCredential.Builder()
-                .setTransport(httpTransport)
-                .setJsonFactory(jsonFactory)
-                .setClientSecrets("474244092827-bpc41ip38d02pqnrg59hhtos0k42jphh.apps.googleusercontent.com", "3D8aaDyXT_BUZDTjwdj19l3a").build()
-                .setRefreshToken("1/9ASl30Jb0QBKcgvL9PHGgZH-6nNTsiNgWBtC8cSGK70");
-        // credential.setAccessToken("ya29.GlsZBZaDhdk8CH6Nh7sBXUDLNxOwL7sw9GBvOFYqKgZOk6sjGxIcaYg1n-YwV1tZBsqL0FYb0_jhK_ob8-gF4WaA3OcUKan1BHOkNKChVgWT1taGO4USVNc6vNBQ");
-        try {
-            credential.refreshToken();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return new Drive.Builder(httpTransport, jsonFactory, credential).setApplicationName(APPLICATION_NAME).build();
+        // Build flow and trigger user authorization request.
+        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
+                HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
+                .setDataStoreFactory(new FileDataStoreFactory(DATA_STORE_DIR))
+                .setAccessType("offline")
+                .build();
+        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
+        return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
 
 
     public static String addPhotoToDrive(MultipartFile multipartFile) throws IOException {
 
-        Drive driveService = getDriveService();
+        Drive driveService = new Drive.Builder(httpTransport, JSON_FACTORY, getCredentials(httpTransport))
+                .setApplicationName(APPLICATION_NAME)
+                .build();
         File fileMetadata = new File();
-        String folderId = "1T6MFpWCdnYIGdNxuwvkEnfqDBWldFfhI"; // folder id at google drive
-        fileMetadata.setParents(Collections.singletonList(folderId));
+//        String folderId = "1T6MFpWCdnYIGdNxuwvkEnfqDBWldFfhI"; // folder id at google drive
+//        fileMetadata.setParents(Collections.singletonList(folderId));
         fileMetadata.setName(UUID.randomUUID().toString());
         java.io.File imageFile = new java.io.File(multipartFile.getOriginalFilename());
         multipartFile.transferTo(imageFile);
         FileContent mediaContent = new FileContent("image/*", imageFile);
-//        File file = driveService.files().create(fileMetadata, mediaContent)
-//                .setFields("id")
-//                .execute();
-//        System.out.println("File ID: " + file.getId());
-//        return file.getId();
-        return "-1";
+        File file = driveService.files().create(fileMetadata, mediaContent)
+                .setFields("id")
+                .execute();
+        System.out.println("File ID: " + file.getId());
+        return file.getId();
     }
-
 
 }
 

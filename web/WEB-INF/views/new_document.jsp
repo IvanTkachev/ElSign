@@ -49,9 +49,6 @@
                     <div class="col-sm-6">
                         Information
                     </div>
-                    <div class="col-sm-6">
-                        SubInformation
-                    </div>
                 </div>
 
                 <div class="col-md-6">
@@ -67,7 +64,7 @@
                 <div class="col-md-7">
                     <div class="form-group row has-feedback">
                         <label class="label-attribute"><spring:message code="DESCRIPTION"/></label>
-                        <textarea id="link" class="form-control"
+                        <textarea id="description" class="form-control"
                                   name="description" placeholder="<spring:message code="Description.description"/>"
                         maxlength="140" rows="6"></textarea>
                     </div>
