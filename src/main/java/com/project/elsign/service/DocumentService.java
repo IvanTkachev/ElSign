@@ -17,4 +17,6 @@ public interface DocumentService {
     List<Document> getSignDocumentsByUsername(String username);
 
     void save(Document document);
+
+    Document getByNameAndLink(String name, String link);
 }

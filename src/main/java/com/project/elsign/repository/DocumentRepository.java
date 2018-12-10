@@ -13,4 +13,6 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
     List<Document> findByOwners(User user);
 
     List<Document> findBySigners(User user);
+
+    Document getByNameAndLink(String name, String link);
 }

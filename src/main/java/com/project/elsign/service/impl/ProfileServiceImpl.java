@@ -6,8 +6,6 @@ import com.project.elsign.model.User;
 import com.project.elsign.repository.UserRepository;
 import com.project.elsign.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,7 +15,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import static com.project.elsign.service.GoogleDriveAPI.addPhotoToDrive;
+import static com.project.elsign.service.GoogleDriveAPI.addFileToDrive;
 
 
 /**
@@ -79,7 +77,7 @@ public class ProfileServiceImpl implements ProfileService {
         }
         else
             try {
-                user.setPhoto(addPhotoToDrive(photo));
+                user.setPhoto(addFileToDrive(photo));
             } catch (IOException e) {
                 e.printStackTrace();
             }

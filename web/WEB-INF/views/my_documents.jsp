@@ -53,7 +53,7 @@
                                 </a>
                             </p>
 
-                            <p class="product-desc">${doc.link}</p>
+                            <p class="product-desc">${doc.name}</p>
                         </div>
                     </div>
                 </c:forEach>

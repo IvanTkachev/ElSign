@@ -17,9 +17,8 @@ import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.net.URLConnection;
 import java.util.Collections;
 import java.util.UUID;
 
@@ -126,18 +125,18 @@ public class GoogleDriveAPI {
     }
 
 
-    public static String addPhotoToDrive(MultipartFile multipartFile) throws IOException {
+    public static String addFileToDrive(MultipartFile multipartFile) throws IOException {
 
         Drive driveService = new Drive.Builder(httpTransport, JSON_FACTORY, getCredentials(httpTransport))
                 .setApplicationName(APPLICATION_NAME)
                 .build();
         File fileMetadata = new File();
-//        String folderId = "1T6MFpWCdnYIGdNxuwvkEnfqDBWldFfhI"; // folder id at google drive
-//        fileMetadata.setParents(Collections.singletonList(folderId));
+        String folderId = "1pZQr6MmHCwBUJeqJbaej-zUq91s0S4un"; // folder id at google drive
+        fileMetadata.setParents(Collections.singletonList(folderId));
         fileMetadata.setName(UUID.randomUUID().toString());
         java.io.File imageFile = new java.io.File(multipartFile.getOriginalFilename());
         multipartFile.transferTo(imageFile);
-        FileContent mediaContent = new FileContent("image/*", imageFile);
+        FileContent mediaContent = new FileContent("text/plain", imageFile);
         File file = driveService.files().create(fileMetadata, mediaContent)
                 .setFields("id")
                 .execute();

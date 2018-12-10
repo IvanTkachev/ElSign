@@ -48,4 +48,9 @@ public class DocumentServiceImpl implements DocumentService{
         documentRepository.save(document);
     }
 
+    @Override
+    public Document getByNameAndLink(String name, String link) {
+        return documentRepository.getByNameAndLink(name, link);
+    }
+
 }

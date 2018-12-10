@@ -9,7 +9,6 @@ import com.project.elsign.service.SignService;
 import com.project.elsign.service.UserService;
 import com.project.elsign.service.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -21,7 +20,9 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class DocumentController {
@@ -121,18 +122,22 @@ public class DocumentController {
     }
 
     @RequestMapping(value = "/document/add", method = RequestMethod.POST)
-    public String addDocument(@RequestParam("name") String name, @RequestParam("file") MultipartFile file,
-                              Model model, HttpServletRequest request) {
+    public String addDocument(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
         if(file!=null){
             try {
-                String id = GoogleDriveAPI.addPhotoToDrive(file);
+                String id = GoogleDriveAPI.addFileToDrive(file);
                 Document document = new Document();
                 document.setLink(id);
-                document.getOwners().add(userService.findByUsername(username));
-                document.setName(name);
+                Set user = new HashSet<>();
+                User owner = userService.findByUsername(username);
+                user.add(owner);
+                document.setName(request.getParameter("name"));
                 documentService.save(document);
+                document = documentService.getByNameAndLink(document.getName(), document.getLink());
+                owner.getOwnDocuments().add(document);
+                userService.update(owner);
             } catch (IOException e) {
                 e.printStackTrace();
             }

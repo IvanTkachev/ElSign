@@ -37,14 +37,12 @@
                 <ul>
                     <li><strong><spring:message code="product.description"/>:</strong></li>
                     <c:if test="${not empty documentid.owners.iterator().next().telephone}">
-                        <li><strong><spring:message code="profile.telephone"/>:</strong></li>
+                       <li><strong><spring:message code="profile.telephone"/>:</strong></li>
                     </c:if>
-                    <c:if test="${not empty documentid.name}">
-                        <li><strong><spring:message code="OWNER"/>:</strong></li>
-                    </c:if>
-                    <c:if test="${not empty documentid.name}">
-                        <li><strong>Подписан:</strong></li>
-                    </c:if>
+                    <li><strong><spring:message code="OWNER"/>:</strong></li>
+                    <li><strong>Подписан:</strong></li>
+                    <li><strong>Документ:</strong></li>
+
                 </ul>
                 <ul>
                     <li>${documentid.name}</li>
@@ -53,6 +51,8 @@
                         <li><a href="${contextPath}/account/${owner.username}">${owner.username}</a></li>
                     </c:forEach>
                     <li>${!sign}</li>
+                    <li><a href="https://drive.google.com/uc?export=download&confirm=no_antivirus&id=${documentid.link}"
+                           onerror="this.src='${contextPath}/document/${documentid.id}'">скачать</a></li>
                 </ul>
 
             </div>
