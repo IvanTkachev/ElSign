@@ -52,7 +52,7 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "id_document"))
     private Set<Document> ownDocuments;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "sign", joinColumns = @JoinColumn(name = "id_user"),
             inverseJoinColumns = @JoinColumn(name = "id_document"))
     private Set<Document> signDocuments;

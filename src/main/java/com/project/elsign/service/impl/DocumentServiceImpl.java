@@ -19,7 +19,7 @@ public class DocumentServiceImpl implements DocumentService{
     UserRepository userRepository;
 
     @Override
-    public List<Document> getDocumentsByUsername(String username) {
+    public List<Document> getDocumentsByOwnerUsername(String username) {
         return documentRepository.findByOwners(userRepository.findByUsername(username));
     }
 
@@ -31,6 +31,16 @@ public class DocumentServiceImpl implements DocumentService{
     @Override
     public List<Document> getAllDocuments() {
         return documentRepository.findAll();
+    }
+
+    @Override
+    public void updateDocument(Document document) {
+        documentRepository.save(document);
+    }
+
+    @Override
+    public List<Document> getSignDocumentsByUsername(String username) {
+        return documentRepository.findBySigners(userRepository.findByUsername(username));
     }
 
 }

@@ -23,13 +23,13 @@ import java.io.IOException;
 public class ProfileController {
 
     @Autowired
-    ProfileService profileService;
+    private ProfileService profileService;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    ProfileValidator profileValidator;
+    private ProfileValidator profileValidator;
 
     @RequestMapping(value = "/profiles", method = RequestMethod.GET)
     public String allUsers(Model model) {

@@ -26,7 +26,7 @@ import java.util.ResourceBundle;
 public class NavigationController {
 
     @Autowired
-    DocumentService documentService;
+    private DocumentService documentService;
 
 
     @RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.GET)

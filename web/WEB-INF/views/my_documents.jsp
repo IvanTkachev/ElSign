@@ -22,8 +22,10 @@
 
 
     <div class="container content" style="margin-bottom: 20%">
-        <a class="btn btn-success" href="${contextPath}/new_document" role="button" style="margin-bottom: 1%; margin-left: 90%">
-            <spring:message code="AddProduct"/></a>
+        <c:if test="${!sign_doc}">
+            <a class="btn btn-success" href="${contextPath}/new_document" role="button" style="margin-bottom: 1%; margin-left: 90%">
+                <spring:message code="AddProduct"/></a>
+        </c:if>
 
         <div class="col-lg-12">
             <div class="products">

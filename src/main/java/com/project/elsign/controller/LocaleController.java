@@ -19,10 +19,10 @@ import java.util.Locale;
 public class LocaleController {
 
     @Autowired
-    SessionLocaleResolver sessionLocaleResolver;
+    private SessionLocaleResolver sessionLocaleResolver;
 
     @Autowired
-    CookieLocaleResolver cookieLocaleResolver;
+    private CookieLocaleResolver cookieLocaleResolver;
 
     @RequestMapping(value = "/changeLocale")
     public void changeLocale(@RequestBody String localeName, HttpServletRequest httpRequest, HttpServletResponse httpResponse) {

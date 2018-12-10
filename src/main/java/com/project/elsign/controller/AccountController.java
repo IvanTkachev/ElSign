@@ -2,6 +2,7 @@ package com.project.elsign.controller;
 
 import com.project.elsign.model.User;
 import com.project.elsign.service.ProfileService;
+import com.project.elsign.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,11 +20,11 @@ import java.util.Set;
 public class AccountController {
 
     @Autowired
-    ProfileService profileService;
+    private UserService userService;
 
     @RequestMapping(value = "/account/{name}", method = RequestMethod.GET)
     public String account(@PathVariable String name, Model model) {
-        User currentUserFull = profileService.getUserByUsername(name);
+        User currentUserFull = userService.findByUsername(name);
         model.addAttribute("user", currentUserFull);
         return "account";
     }

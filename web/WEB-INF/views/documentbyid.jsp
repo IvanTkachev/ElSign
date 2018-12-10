@@ -36,41 +36,35 @@
             <div class="wrapper-for-ul">
                 <ul>
                     <li><strong><spring:message code="product.description"/>:</strong></li>
-                    <c:if test="${not empty documentid.owners.iterator().next().telephone}" >   <li><strong><spring:message code="profile.telephone"/>:</strong></li></c:if>
-                 <c:if test="${not empty documentid.name}" > <li><strong><spring:message code="OWNER"/>:</strong></li></c:if>
+                    <c:if test="${not empty documentid.owners.iterator().next().telephone}">
+                        <li><strong><spring:message code="profile.telephone"/>:</strong></li>
+                    </c:if>
+                    <c:if test="${not empty documentid.name}">
+                        <li><strong><spring:message code="OWNER"/>:</strong></li>
+                    </c:if>
+                    <c:if test="${not empty documentid.name}">
+                        <li><strong>Подписан:</strong></li>
+                    </c:if>
                 </ul>
                 <ul>
-                   <li>${documentid.name}</li>
+                    <li>${documentid.name}</li>
                     <li>${documentid.owners.iterator().next().telephone}</li>
                     <c:forEach items="${documentid.owners}" var="owner">
                         <li><a href="${contextPath}/account/${owner.username}">${owner.username}</a></li>
                     </c:forEach>
-
+                    <li>${!sign}</li>
                 </ul>
 
             </div>
-
-            <security:authorize access="(hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')) and principal.username=='${documentid.name}'">
-                <form action="" method="post">
-                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                    <a href="${contextPath}/document/edit/${documentid.id}">
-                        <img style="margin-left: 1000%;" src="${contextPath}/resources/img/gear.png">
-                    </a>
-                </form>
-            </security:authorize>
-
-        </div>
-
-        <c:if test="${documentid.name.toString() == 'MODERATION'}">
-            <sec:authorize access="hasRole('ROLE_ADMIN')">
-                <div class="col-lg-2 btn-group-vertical align-middle">
-                    <button type="button" name="${documentid.id}" id="btn_accept" class="btn btn-primary"><spring:message
-                            code="moderationButtonAccept"/></button>
-                    <button type="button" name="${documentid.id}" id="btn_deny" class="btn btn-primary"><spring:message
-                            code="moderationButtonDeny"/></button>
+            <c:if test="${!pageContext.request.userPrincipal.name.equals(documentid.owners.iterator().next().username) and sign}">
+                <div>
+                    <a class="btn btn-success"
+                       href="${contextPath}/sign_by_user/${pageContext.request.userPrincipal.name}/document/${documentid.id}"
+                       role="button" style="margin-bottom: 1%; margin-left: 90%">
+                        <spring:message code="Sign"/></a>
                 </div>
-            </sec:authorize>
-        </c:if>
+            </c:if>
+        </div>
     </div>
     <%@include file="../layouts/comment_layout.jsp" %>
     <%@include file="../layouts/footer_layout.jsp"%>

@@ -55,10 +55,10 @@
                  <div class="col-xs-12 divider text-center">
                      <div class="col-xs-8 col-sm-8 emphasis">
                          <p>
-                             <small><spring:message code="message"/></small>
+                             <small><spring:message code="Documents"/></small>
                          </p>
-                         <a href="${contextPath}/account/${user.username}" class="btn btn-success btn-block" role="button">
-                                    <spring:message code="send"/>
+                         <a href="${contextPath}/documents/${user.username}" class="btn btn-success btn-block" role="button">
+                                    <spring:message code="look"/>
                          </a>
                      </div>
                      <div class="col-xs-4 col-sm-4">
