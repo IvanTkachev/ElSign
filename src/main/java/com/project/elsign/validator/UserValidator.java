@@ -75,16 +75,7 @@ public class UserValidator implements Validator {
 
     private boolean checkUniquenessEmail(String email) {
         Long id = profileService.getUserIdByEmail(email);
-        if(id == null){
-            return true;
-        }
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();
-        Long user_id = userService.findByUsername(username).getId();
-        if (id != -1 && user_id != id) {
-            return false;
-        }
-        return true;
+        return id == null;
     }
 
     private boolean checkField(String field, String pattern) {

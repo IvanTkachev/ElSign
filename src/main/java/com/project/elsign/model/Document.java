@@ -1,13 +1,16 @@
 package com.project.elsign.model;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
+@Transactional
 @Table(name = "document")
 public class Document {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "name")

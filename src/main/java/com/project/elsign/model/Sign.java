@@ -7,7 +7,7 @@ import java.util.Set;
 @Table(name = "sign")
 public class Sign {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "date_sign")
