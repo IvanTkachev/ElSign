@@ -33,13 +33,13 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public User getUserByID(Long id) {
-        return userRepository.findOne(id);
+        return userRepository.getOne(id);
     }
 
     @Override
     public User getUserByUsername(String username) {
         Long id = userRepository.findByUsername(username).getId();
-        User user = userRepository.findOne(id);
+        User user = userRepository.getOne(id);
         user.setUsername(username);
 //        user.setUserProductList(productService.getProductsByUsername(user.getUsername()));
         return user;

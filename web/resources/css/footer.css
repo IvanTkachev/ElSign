@@ -3,12 +3,13 @@ body {
 }
 
 .footer-bs {
+    width: 163%;
     background-color: black;
     position: absolute;
     padding: 2% 5%;
     z-index: 1200;
     color: rgba(255,255,255,1.00);
-    margin: 10% -20% -5%;
+    margin: 10% -33% -5%;
     border-bottom-right-radius: 1%;
     border-top-left-radius: 0;
     border-bottom-left-radius: 1%;

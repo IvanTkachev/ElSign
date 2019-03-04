@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DocumentServiceImpl implements DocumentService{
@@ -25,7 +26,7 @@ public class DocumentServiceImpl implements DocumentService{
 
     @Override
     public Document getDocumentById(Long id) {
-        return documentRepository.findOne(id);
+        return documentRepository.getOne(id);
     }
 
     @Override

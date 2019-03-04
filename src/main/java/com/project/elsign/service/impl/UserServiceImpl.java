@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         Set<Role> roles = new HashSet<>();
         //Add User role
-        roles.add(roleRepository.findOne(1L));
+        roles.add(roleRepository.getOne(1L));
         user.setRoles(roles);
 
         fillNotMandatoryFields(user);
