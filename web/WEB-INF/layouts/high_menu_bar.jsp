@@ -84,6 +84,7 @@
                                     <li><a href="${contextPath}/account"><i class="icon-user"></i><spring:message code="headerAccount"/></a></li>
                                     <li><a href="${contextPath}/my_documents"><i class="icon-list"></i><spring:message code="headerMenuMyProducts"/></a></li>
                                     <li><a href="${contextPath}/my_sign_documents"><i class="icon-list"></i><spring:message code="headerMenuMySignProducts"/></a></li>
+                                    <li><a href="${contextPath}/check_sign"><i class="icon-list"></i><spring:message code="headerMenuSignDocument"/></a></li>
                                 </c:if>
                                 <c:if test="${pageContext.request.isUserInRole(\"ROLE_ADMIN\")}">
                                     <li><a href="${contextPath}/not_moderated"><i class="icon-list"></i><spring:message code="headerMenuProductModeration"/></a></li>

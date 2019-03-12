@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -46,6 +47,46 @@ public class SignController {
             model.addAttribute("documentid", document);
             return "redirect:/sign_documents/" + username;
         }
+    }
+
+    @RequestMapping(value = "/check_sign", method = RequestMethod.GET)
+    public String getDocumentsByUser(Model model) {
+        return "/check_sign";
+    }
+
+    @RequestMapping(value = "/sign/check", method = RequestMethod.POST)
+    public String addDocument(HttpServletRequest request, Model model) {
+        String id_str = request.getParameter("description");
+        if(id_str != null) {
+            Long id = Long.parseLong(id_str);
+            try {
+                Document document = documentService.getDocumentById(id);
+                if(document == null){
+                    return "/check_sign";
+                }
+                model.addAttribute("documentid", document);
+                return "/documentbyid";
+            } catch (Exception e){
+                return "/documentbyid";
+            }
+
+        }
+
+
+//                String id = GoogleDriveAPI.addFileToDrive(file);
+//                Document document = new Document();
+//                document.setLink(id);
+//                Set user = new HashSet<>();
+//                User owner = userService.findByUsername(username);
+//                user.add(owner);
+//                document.setName(request.getParameter("name"));
+//                documentService.save(document);
+//                document = documentService.getByNameAndLink(document.getName(), document.getLink());
+//                owner.getOwnDocuments().add(document);
+//                userService.update(owner);
+
+
+        return "redirect:/my_documents";
     }
 
 }
