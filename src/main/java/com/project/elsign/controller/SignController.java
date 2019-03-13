@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -66,8 +67,8 @@ public class SignController {
                 }
                 model.addAttribute("documentid", document);
                 return "/documentbyid";
-            } catch (Exception e){
-                return "/documentbyid";
+            } catch (EntityNotFoundException e){
+                return "/check_sign";
             }
 
         }
