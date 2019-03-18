@@ -80,4 +80,9 @@ public class UserServiceImpl implements UserService {
     public void update(User user) {
         userRepository.save(user);
     }
+
+    @Override
+    public User getUserById(Long id) {
+        return userRepository.getOne(id);
+    }
 }

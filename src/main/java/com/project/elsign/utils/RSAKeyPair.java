@@ -1,4 +1,4 @@
-package com.project.elsign.model;
+package com.project.elsign.utils;
 
 import com.project.elsign.model.constant.RSAConstants;
 
@@ -16,8 +16,7 @@ public class RSAKeyPair {
         }
         if (generator != null) {
             generator.initialize(RSAConstants.ALGORITHM_BITS);
-            KeyPair keyPair = generator.genKeyPair();
-            return keyPair;
+            return generator.genKeyPair();
         }
         return null;
     }

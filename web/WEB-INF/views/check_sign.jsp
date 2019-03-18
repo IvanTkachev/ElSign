@@ -44,6 +44,7 @@
                         </c:if>
                     </c:if>
                     <li><strong><spring:message code="OWNER"/>:</strong></li>
+                    <li><strong>Подписан:</strong></li>
                     <li><strong>Документ:</strong></li>
 
                 </ul>
@@ -54,6 +55,9 @@
                         <c:forEach items="${documentid.owners}" var="owner">
                             <li><a href="${contextPath}/account/${owner.username}">${owner.username}</a></li>
                         </c:forEach>
+                    </c:if>
+                    <c:if test="${userid != null}">
+                        <li><a href="${contextPath}/account/${userid.username}">${userid.username}</a></li>
                     </c:if>
                     <c:if test="${documentid != null}">
                         <li><a href="https://drive.google.com/uc?export=download&confirm=no_antivirus&id=${documentid.link}"

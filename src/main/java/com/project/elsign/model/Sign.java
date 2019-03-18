@@ -1,6 +1,7 @@
 package com.project.elsign.model;
 
 import javax.persistence.*;
+import java.security.Key;
 import java.util.Set;
 
 @Entity
@@ -18,6 +19,12 @@ public class Sign {
 
     @Column(name = "id_document")
     private String document;
+
+    @Column(name = "public_key")
+    private byte[] publicKey;
+
+    @Column(name = "enc_hash")
+    private byte[] encHash;
 
     public Long getId() {
         return id;
@@ -49,5 +56,21 @@ public class Sign {
 
     public void setDocument(String document) {
         this.document = document;
+    }
+
+    public byte[] getPublicKey() {
+        return publicKey;
+    }
+
+    public void setPublicKey(byte[] publicKey) {
+        this.publicKey = publicKey;
+    }
+
+    public byte[] getEncHash() {
+        return encHash;
+    }
+
+    public void setEncHash(byte[] encHash) {
+        this.encHash = encHash;
     }
 }

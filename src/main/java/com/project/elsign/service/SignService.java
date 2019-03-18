@@ -19,4 +19,8 @@ public interface SignService {
     void save(Sign sign);
 
     Sign getSignBySignerAndDocument(String userId, String documentId);
+
+    Sign getSignById(Long id);
+
+    void delete(Sign sign);
 }

@@ -5,7 +5,6 @@ import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInsta
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.FileContent;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -18,7 +17,6 @@ import com.google.api.services.drive.model.File;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
-import java.net.URLConnection;
 import java.util.Collections;
 import java.util.UUID;
 
@@ -144,6 +142,22 @@ public class GoogleDriveAPI {
         return file.getId();
     }
 
+    public static java.io.File getFileFromDrive(String id)  {
+
+        java.io.File file = new java.io.File("file");
+        OutputStream outputStream = null;
+        try {
+            Drive driveService = new Drive.Builder(httpTransport, JSON_FACTORY, getCredentials(httpTransport))
+                    .setApplicationName(APPLICATION_NAME)
+                    .build();
+            outputStream = new FileOutputStream(file);
+            driveService.files().get(id)
+                    .executeMediaAndDownloadTo(outputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return file;
+    }
 }
 
 

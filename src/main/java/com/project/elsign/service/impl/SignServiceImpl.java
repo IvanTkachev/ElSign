@@ -52,4 +52,16 @@ public class SignServiceImpl implements SignService {
     public Sign getSignBySignerAndDocument(String userId, String documentId) {
         return signRepository.getSignBySignerAndDocument(userId, documentId);
     }
+
+    @Override
+    public Sign getSignById(Long id) {
+        return signRepository.getOne(id);
+    }
+
+    @Override
+    public void delete(Sign sign) {
+        signRepository.delete(sign);
+    }
+
+
 }
